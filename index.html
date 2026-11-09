@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1"><title>Mum's Words</title><style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#182332;background:#f3f5f6}*{box-sizing:border-box}body{margin:0}button{font:inherit;cursor:pointer;border:2px solid #afbac6;border-radius:12px;background:white;color:#162333;touch-action:manipulation}button:focus-visible{outline:4px solid #184fbd}button:active{transform:scale(.98)}.app{height:100dvh;min-height:500px;display:flex;flex-direction:column;padding:10px;gap:9px}.sentence-row{display:flex;gap:8px;min-height:92px}.sentence{flex:1;border:2px solid #778aa0;background:white;border-radius:12px;padding:13px 18px;overflow:auto;font-size:clamp(21px,3vw,35px);font-weight:600}.action{min-width:84px;padding:8px 12px;font-weight:bold;background:#dae7f8}.action.warn{background:#f7deda}.action.help{background:#f3c8c8}.common{display:flex;gap:5px;overflow-x:auto;padding-bottom:3px;min-height:66px}.common button{flex:1 0 auto;min-width:62px;padding:7px;font-size:clamp(17px,2vw,24px);background:#eaf0f8;font-weight:bold}.common .abc{background:#f7dfa8}.prediction-row{display:flex;align-items:stretch;gap:7px;min-height:66px}.prediction-label{display:flex;align-items:center;min-width:92px;font-size:14px;font-weight:bold;color:#475569}.predictions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;flex:1;min-width:0}.predictions button{min-width:0;min-height:58px;background:#dcebf7;border-color:#a3bfd9;font-size:clamp(17px,2vw,23px);font-weight:bold;overflow-wrap:anywhere}.auto-title{font-weight:bold;color:#485569;font-size:15px}.auto-suggestions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.auto-suggestions button{background:#e3efd9;min-height:57px;font-size:clamp(17px,2vw,22px);font-weight:bold;overflow-wrap:anywhere}.body{display:flex;flex:1;gap:9px;min-height:0}.side{display:flex;flex-direction:column;width:135px;gap:7px}.side button{flex:1;min-height:55px;font-size:20px;font-weight:bold;background:#e4e8ee}.side button.active{background:#bad5ff;border-color:#245b9f}.content{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}.letters{display:flex;flex-wrap:wrap;gap:4px}.letters button{flex:1 0 6%;min-width:35px;min-height:44px;font-size:18px;font-weight:bold}.letters button.active{background:#bcd9ff;border-color:#245b9f}.heading{font-size:18px;font-weight:bold;padding:1px 3px}.category-tools{display:none;align-items:center;gap:9px;flex-wrap:wrap}.category-tools button{font-size:clamp(16px,2vw,21px);font-weight:bold;min-height:55px;padding:8px 18px}.category-tools .backup{background:#f8e8c6;border-color:#ba9653}.category-tools .back{background:#d7e6ff;border-color:#5c85b9}.category-tools .add-category,.category-tools .add-new-category{background:#c7dfbd;border-color:#6c9c64}.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(87px,1fr);gap:8px;overflow:auto;flex:1;padding-bottom:5px}.tiles button{font-size:clamp(20px,2.4vw,29px);padding:14px 8px;font-weight:600;background:#fff;min-height:87px}.tiles button:nth-child(3n+2){background:#f0f4fc}.empty-category{grid-column:1/-1;padding:20px;background:#fff;border:2px dashed #aebdca;border-radius:12px;font-size:22px;align-self:start}.tiles button.back-tile{background:#d7e6ff;border-color:#5c85b9;font-size:clamp(17px,2vw,23px)}.foot{font-size:12px;color:#52606c;display:flex;justify-content:space-between}.overlay{position:fixed;inset:0;background:#172232a6;display:none;align-items:center;justify-content:center;padding:12px;z-index:5}.overlay.show{display:flex}.dialog{background:#f6f8fa;padding:18px;max-width:850px;width:100%;border-radius:18px;display:flex;flex-direction:column;gap:12px;max-height:95dvh;overflow:auto}.dialog h2{margin:0}.typed{background:white;padding:14px;border-radius:10px;min-height:60px;font-size:28px;overflow-wrap:anywhere;border:2px solid #8292a5}.keys{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:6px}.keys button{min-height:62px;font-weight:bold;font-size:24px;background:#e0ebfb}.dialog-actions{display:flex;flex-wrap:wrap;gap:7px}.dialog-actions button{padding:14px;font-size:18px;font-weight:bold;flex:1}.primary{background:#c7dfbd!important}.small{font-size:13px;color:#56616d}.edit-controls{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-height:0}.edit-controls #edit-tip{font-size:12px;color:#465364}.edit-controls #backup-vocab,.edit-controls #restore-vocab{background:#f4e9d4;border-color:#bb9c60}.edit-controls input[type=file]{display:none}.edit-toggle{font-size:13px;font-weight:bold;padding:5px 10px;background:#e2e8f0;min-height:30px;white-space:nowrap;border-radius:7px;border-width:1px}.edit-toggle.on{background:#f6d48b;border-color:#a76a1a}.tiles button.editable-on{border-style:dashed;border-color:#ad7819}.tiles button.is-pinned{position:relative;padding-right:37px}.tiles button.is-pinned::after{content:"📌";position:absolute;top:5px;right:7px;font-size:20px;line-height:1;pointer-events:none;transform:rotate(-18deg)}.edit-dialog{max-width:570px}.edit-dialog p{font-size:20px;margin:0}.dialog-actions button.danger{background:#f5cbc7}.status{min-height:17px;color:#275b33;font-weight:bold}@media(max-width:800px){.side{width:105px}.side button{font-size:16px}.action{min-width:60px}.letters button{min-width:32px;flex-basis:7%}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.sentence-row{min-height:76px}.common{min-height:55px}.prediction-row{min-height:52px}.prediction-label{min-width:65px;font-size:12px}.predictions button{min-height:48px;font-size:15px}.auto-suggestions button{min-height:44px;font-size:16px}.keys{grid-template-columns:repeat(7,minmax(0,1fr))}.keys button{min-height:49px}}@media(max-height:550px){.app{min-height:0}.sentence-row{min-height:62px}.common{min-height:49px}.prediction-row{min-height:44px}.predictions button{min-height:42px}.side button{min-height:39px}.tiles button{min-height:62px}.letters button{min-height:33px}}
+.icon-button{display:flex;align-items:center;justify-content:center;gap:10px;text-align:center}.icon-button .category-icon{font-size:clamp(22px,2.3vw,30px);line-height:1;flex:none}.icon-button .category-name{min-width:0;overflow-wrap:anywhere}.side button.icon-button{gap:6px;flex-direction:column}.side button.icon-button .category-icon{font-size:23px}.side button.icon-button .category-name{font-size:clamp(14px,1.6vw,19px)}@media(max-height:550px){.side button.icon-button{flex-direction:row}.side button.icon-button .category-icon{font-size:18px}}
+</style></head><body><main class="app"><div class="sentence-row"><div id="sentence" class="sentence" aria-live="polite">Tap a word to begin…</div><button class="action" id="speak" aria-label="Speak sentence">🔊<br>Speak</button><button class="action warn" id="del">⌫<br>Delete</button><button class="action warn" id="clear">Clear</button><button class="action help" id="help">HELP</button></div><div class="prediction-row"><div class="prediction-label">NEXT WORD</div><div class="predictions" id="predictions" aria-label="Suggested next words"></div></div><div class="common" id="common"></div><div class="body"><nav class="side" id="side"></nav><section class="content"><div class="letters" id="letters"></div><div class="heading" id="heading"></div><div class="category-tools" id="category-tools"><button class="back" id="back-category">← Back to Categories</button><button class="add-category" id="add-category">＋ Add Word</button><button class="add-new-category" id="add-new-category">＋ Add Category</button></div><div class="tiles" id="tiles"></div></section></div><div class="edit-controls" aria-label="Vocabulary management"><button id="backup-vocab" type="button" class="edit-toggle" title="Back up all saved words, categories and edits">⬇ Backup</button><button id="restore-vocab" type="button" class="edit-toggle" title="Import saved words, categories and edits">⬆ Import</button><input type="file" id="backup-file" accept=".json,application/json" hidden><button id="edit-toggle" type="button" class="edit-toggle" aria-pressed="false">🔒 Edit Mode: OFF</button><span id="edit-tip">Normal mode — tap words to add them to a sentence.</span></div><div class="foot"><span>Mum's Words • version 16 </span><span id="backup-message" role="status">Words saved on this device — make regular backups</span></div></main>
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Type your own word"><div class="dialog"><h2 id="keyboard-title">Type your own word</h2><div class="typed" id="typed" aria-live="polite">&nbsp;</div><div class="auto-title">WORD SUGGESTIONS — tap to complete</div><div class="auto-suggestions" id="auto-suggestions"></div><div class="keys" id="keys"></div><div class="dialog-actions"><button id="space">Space</button><button id="backspace">⌫ Delete</button><button id="add" class="primary">Add to sentence</button><button id="save">Save word</button><button id="close">Close</button></div><div class="status" id="status"></div><div class="small" id="keyboard-tip">Saved words appear in the A–Z library under their first letter. This demo stores them in this browser only.</div></div></div>
+<div class="overlay" id="edit-overlay" role="dialog" aria-modal="true" aria-label="Edit vocabulary word"><div class="dialog edit-dialog"><h2 id="edit-title">Manage word</h2><p id="edit-hint">Choose an action.</p><div class="dialog-actions"><button id="edit-rename" class="primary">✎ Edit</button><button id="edit-pin">📌 Pin to Top</button><button id="edit-remove" class="danger">🗑 Delete</button><button id="edit-cancel">Cancel</button></div></div></div>
+<script>
+(()=>{'use strict';
+const baseWords = ["A", "A little", "A lot", "Able", "About", "Above", "Absolutely", "Accept", "Accident", "Across", "Act", "Action", "Actually", "Add", "Address", "Adult", "Afraid", "After", "Afternoon", "Again", "Age", "Ago", "Agree", "Ahead", "Air", "All", "All done", "All right", "Allow", "Almost", "Alone", "Along", "Already", "Also", "Always", "Amazing", "Angry", "Animal", "Another", "Answer", "Any", "Anybody", "Anymore", "Anyone", "Anything", "Anyway", "Anywhere", "Apart", "Apple", "Appointment", "Are", "Are you", "Arm", "Around", "Arrive", "As", "Ask", "Asleep", "At", "At home", "Aunt", "Available", "Away", "Awful", "Baby", "Back", "Bad", "Bag", "Bake", "Ball", "Banana", "Bank", "Bathroom", "Be", "Be careful", "Beach", "Beautiful", "Because", "Because of", "Become", "Bed", "Bedroom", "Before", "Begin", "Behind", "Believe", "Below", "Best", "Better", "Between", "Big", "Birthday", "Bit", "Black", "Blanket", "Blue", "Body", "Book", "Bored", "Boring", "Both", "Bottle", "Bottom", "Box", "Boy", "Bread", "Break", "Breakfast", "Breathe", "Bring", "Broken", "Brother", "Brown", "Build", "Bus", "Busy", "But", "Buy", "By", "Cafe", "Call", "Calm", "Can", "Cannot", "Car", "Care", "Careful", "Carry", "Cat", "Change", "Chat", "Check", "Cheek", "Chicken", "Child", "Children", "Choose", "Church", "Clean", "Clear", "Close", "Clothes", "Cloud", "Cold", "Collect", "Colour", "Come", "Come back", "Come here", "Comfortable", "Coming", "Company", "Complain", "Complete", "Computer", "Concerned", "Confused", "Consider", "Continue", "Cook", "Cool", "Correct", "Could", "Country", "Couple", "Cousin", "Cover", "Crazy", "Cry", "Cup", "Cut", "Dad", "Daily", "Dance", "Dark", "Daughter", "Day", "Dead", "Deal", "Decide", "Definitely", "Delete", "Dentist", "Describe", "Desk", "Did", "Different", "Difficult", "Dinner", "Direction", "Dirty", "Disappointed", "Dizzy", "Do", "Do not", "Doctor", "Dog", "Doing", "Don't", "Don't know", "Done", "Door", "Down", "Downstairs", "Draw", "Dream", "Dress", "Drink", "Drive", "Drop", "Dry", "During", "Each", "Ear", "Early", "Easy", "Eat", "Edge", "Egg", "Either", "Else", "Email", "Embarrassed", "Emergency", "Empty", "End", "Enough", "Enter", "Especially", "Even", "Evening", "Ever", "Every", "Everybody", "Everyone", "Everything", "Everywhere", "Exactly", "Excellent", "Except", "Excited", "Excuse", "Exercise", "Expect", "Explain", "Extra", "Extremely", "Eye", "Face", "Fact", "Fall", "Family", "Far", "Fast", "Father", "Favourite", "Feel", "Feeling", "Fever", "Few", "Find", "Fine", "Finger", "Finish", "First", "Fish", "Fit", "Five", "Fix", "Floor", "Flower", "Follow", "Food", "Foot", "For", "For me", "Forget", "Forgot", "Forward", "Free", "Friend", "Frightened", "From", "Front", "Fruit", "Full", "Funny", "Future", "Game", "Garden", "Gave", "Get", "Get up", "Getting", "Girl", "Give", "Give me", "Glad", "Glass", "Glasses", "Go", "Go away", "Go home", "Going", "Gone", "Good", "Good morning", "Good night", "Goodbye", "Gorgeous", "Got", "Grandchild", "Grandfather", "Grandmother", "Grateful", "Great", "Green", "Group", "Grow", "Guess", "Guilty", "Gym", "Had", "Hair", "Half", "Hand", "Happen", "Happened", "Happy", "Hard", "Has", "Have", "Have to", "Haven't", "He", "Head", "Headache", "Hear", "Heard", "Heart", "Heat", "Heavy", "Hello", "Help", "Help me", "Her", "Here", "Herself", "Hey", "Hi", "High", "Him", "His", "Hold", "Home", "Honest", "Hope", "Hospital", "Hot", "Hour", "House", "How", "How come", "Hungry", "Hurry", "Hurt", "Hurts", "Husband", "I", "I agree", "I disagree", "I know", "I need", "I think", "I want", "Ice", "Idea", "If", "Ill", "Imagine", "Important", "Impossible", "In", "In front", "Include", "Incorrect", "Inside", "Instead", "Interested", "Into", "Invite", "Is", "Isn't", "It", "Itchy", "Its", "Jacket", "Jam", "Jeans", "Job", "Join", "Joke", "Journey", "Joy", "Juice", "Jump", "Just", "Just now", "Keep", "Kept", "Kettle", "Key", "Kick", "Kid", "Kind", "Kiss", "Kitchen", "Knew", "Know", "Knowledge", "Known", "Lady", "Language", "Large", "Last", "Late", "Later", "Laugh", "Laundry", "Learn", "Leave", "Left", "Leg", "Less", "Let", "Let me", "Letter", "Lie", "Life", "Lift", "Light", "Like", "Listen", "Little", "Live", "Living", "Lonely", "Long", "Look", "Look at", "Lose", "Lost", "Lot", "Loud", "Love", "Lovely", "Low", "Lunch", "Made", "Make", "Make sure", "Making", "Man", "Many", "Map", "Matter", "May", "Maybe", "Me", "Mean", "Means", "Medicine", "Meet", "Memory", "Message", "Middle", "Might", "Milk", "Mind", "Minute", "Miss", "Missing", "Mistake", "Moment", "Money", "Month", "Mood", "More", "More please", "Morning", "Most", "Mother", "Mouth", "Move", "Movie", "Much", "Mum", "Music", "Must", "My", "Myself", "Name", "Near", "Nearly", "Neck", "Need", "Neighbour", "Nervous", "Never", "New", "Next", "Nice", "Night", "No", "Nobody", "Noise", "None", "Normal", "Not", "Not yet", "Note", "Nothing", "Notice", "Now", "Number", "Nurse", "Of", "Of course", "Off", "Offer", "Often", "Oh", "Okay", "Old", "On", "On top", "Once", "One", "Only", "Open", "Opinion", "Or", "Orange", "Order", "Other", "Our", "Ours", "Out", "Outside", "Over", "Over there", "Own", "Pain", "Painful", "Paper", "Parents", "Part", "Party", "Past", "Patient", "Pay", "Pen", "People", "Perhaps", "Person", "Pet", "Phone", "Photo", "Picture", "Place", "Plan", "Plant", "Plate", "Play", "Please", "Plenty", "Point", "Possible", "Possibly", "Pretty", "Previous", "Probably", "Problem", "Promise", "Proud", "Pull", "Push", "Put", "Pyjamas", "Quality", "Question", "Quick", "Quickly", "Quiet", "Quite", "Radio", "Rain", "Raise", "Rather", "Read", "Ready", "Real", "Realise", "Really", "Reason", "Receive", "Recently", "Red", "Remember", "Remind", "Repeat", "Reply", "Rest", "Restaurant", "Return", "Right", "Right now", "Ring", "Road", "Room", "Round", "Rude", "Run", "Sad", "Safe", "Said", "Same", "Sandwich", "Save", "Say", "Scared", "School", "See", "See you", "Seem", "Seen", "Send", "Sentence", "Serious", "Set", "Several", "Share", "She", "Shoes", "Shop", "Short", "Should", "Show", "Shower", "Sick", "Side", "Sister", "Sit", "Sit down", "Sleep", "Slow", "Small", "Smile", "So", "So much", "Soap", "Socks", "Some", "Some more", "Somebody", "Somehow", "Someone", "Something", "Sometimes", "Somewhere", "Soon", "Sorry", "Sound", "Speak", "Special", "Spend", "Spoon", "Stand", "Stand up", "Start", "Stay", "Still", "Stomach", "Stop", "Story", "Straight", "Strange", "Strong", "Stuck", "Stuff", "Sugar", "Suggest", "Sure", "Surprised", "Swallow", "Sweet", "Swim", "Table", "Take", "Take me", "Talk", "Tall", "Taste", "Tea", "Television", "Tell", "Than", "Thank", "Thank you", "Thanks", "That", "The", "Their", "Them", "Then", "There", "These", "They", "Thing", "Think", "Thinking", "Thirsty", "This", "This one", "Those", "Though", "Thought", "Through", "Tired", "To", "Today", "Together", "Toilet", "Tomorrow", "Tonight", "Too", "Too much", "Took", "Top", "Touch", "Town", "Train", "Travel", "Try", "Trying", "Turn", "Turn off", "Turn on", "TV", "Two", "Type", "Unable", "Uncomfortable", "Under", "Understand", "Understood", "Unfortunately", "Unhappy", "Unless", "Until", "Up", "Upset", "Upstairs", "Us", "Use", "Used", "Useful", "Usually", "Vacation", "Value", "Various", "Very", "Visit", "Visitor", "Voice", "Volume", "Vote", "Wait", "Wait please", "Walk", "Want", "Wanted", "Warm", "Was", "Wash", "Watch", "Watch TV", "Watching", "Water", "Way", "We", "Wear", "Weather", "Week", "Well", "Went", "Were", "What", "What else", "When", "Where", "Whether", "Which", "While", "White", "Who", "Why", "Wife", "Will", "Window", "Wish", "With", "Without", "Woman", "Women", "Wonder", "Wonderful", "Word", "Work", "Worried", "Worry", "Worse", "Worst", "Would", "Wrong", "X-ray", "Xylophone", "Yeah", "Year", "Yes", "Yesterday", "Yet", "You", "You know", "Young", "Your", "Yours", "Yourself", "Yummy", "Zebra", "Zero", "Zip", "Zoo"];
+const pages={Questions:['What','What is','What do','What are','What can','What have','What happened','Where','When','Why','Who','How','Can you','Do you','Is it','Are you','Which','Will you'],Statements:['I am','I feel','I want','I need','I have','I don\'t','I can','I can\'t','I think','I know','I remember','I forgot','It is','It hurts','Please','I would like','I love','I miss'],Quick:['Yes','No','Help me','I need the toilet','I am in pain','I need water','Please wait','Give me a minute','That is not what I mean','I am uncomfortable','I am tired','I love you']};
+const questionGroups={
+'What':['What','What is','What do','What are','What can','What have','What happened','What did','What will','What if','What about','What time'],
+'How':['How','How are','How do','How can','How much','How many','How long','How often','How did','How is','How was','How about'],
+'Where':['Where','Where is','Where are','Where do','Where can','Where did','Where have','Where should'],
+'When':['When','When is','When are','When do','When can','When did','When will','When was'],
+'Why':['Why','Why is','Why are','Why do','Why did','Why can’t','Why not','Why would'],
+'Who':['Who','Who is','Who are','Who did','Who can','Who was','Who will','Who has'],
+'Can':['Can','Can you','Can I','Can we','Can they','Can it'],
+'Do':['Do','Does','Do you','Do I','Do we','Does it','Did you','Did I'],
+'Is':['Is','Is it','Is there','Is that','Is she','Is he'],
+'Are':['Are','Are you','Are we','Are they','Are there'],
+'Which':['Which','Which one','Which way','Which is','Which do'],
+'Will':['Will','Will you','Will it','Will we','Would you','Would it']
+};
+const statementGroups={"I":["I","I am","I was","I feel","I want","I need","I have","I had","I do","I did","I can","I can’t","I will","I would","I would like","I think","I know","I remember","I forgot","I like","I love","I miss","I don’t","I didn’t","I should","I might","I’m going to","I used to","I wish","I prefer","I understand","I don’t understand"],"We":["We","We are","We were","We do","We did","We can","We can’t","We will","We won’t","We have","We had","We need","We want","We should","We could","We might","We must","We don’t","We didn’t","We think","We know","We like","We love","We used to","We are going to","We have to","We need to","We want to","We should go"],"You":["You","You are","You were","You can","You can’t","You do","You did","You have","You had","You need","You want","You should","You could","You will","You might","You know","You said","You told me","You forgot","You don’t","You didn’t","You look","You seem","You make me"],"They":["They","They are","They were","They do","They did","They can","They can’t","They have","They had","They will","They need","They want","They should","They might","They don’t","They didn’t","They said","They told me","They are going to"],"He / She":["He is","She is","He was","She was","He can","She can","He has","She has","He did","She did","He will","She will","He wants","She wants","He needs","She needs","He said","She said","He doesn’t","She doesn’t"],"It":["It","It is","It was","It can","It can’t","It does","It doesn’t","It did","It didn’t","It has","It had","It will","It won’t","It might","It should","It hurts","It feels","It looks","It sounds","It seems","It happened","It is too","It is not","It is okay"],"This / That":["This","That","This is","That is","This was","That was","This one","That one","This means","That means","This feels","That looks","That sounds","That’s right","That’s wrong","That’s enough","That’s not what I mean","This is better","That is different"],"There":["There","There is","There are","There was","There were","There isn’t","There aren’t","There might be","There should be","There used to be","There is something","There is nothing"],"Please":["Please","Please help me","Please wait","Please listen","Please stop","Please come here","Please show me","Please tell me","Please give me","Please get me","Please speak slowly","Please say that again","Please give me time","Please let me finish","Please don’t rush me"],"Let’s":["Let’s","Let’s go","Let’s stay","Let’s do it","Let’s try","Let’s watch","Let’s eat","Let’s talk","Let’s wait","Let’s sit down","Let’s go outside","Let’s do that later"],"Other":["And","But","Because","So","If","Then","Also","Maybe","Probably","Definitely","Sometimes","Usually","Always","Never","Not yet","Not anymore","Of course","I agree","I disagree","I suppose","I guess","I’m not sure","For example","Instead","Otherwise","Actually","Anyway"]};
+const topicWords={
+'Food':['Breakfast','Lunch','Dinner','Bread','Toast','Eggs','Chicken','Beef','Fish','Rice','Pasta','Soup','Sandwich','Fruit','Apple','Banana','Vegetables','Potato','Chocolate','Biscuit','Hungry','Eat','Cook','More','Enough'],
+'Drinks':['Water','Tea','Coffee','Milk','Juice','Cold drink','Hot drink','Thirsty','Cup','Glass','More','Enough'],
+'People':['Mum','Dad','Daughter','Son','Husband','Wife','Sister','Brother','Friend','Family','Doctor','Nurse','Carer','Neighbour','Everyone','Someone','Nobody','Visitor'],
+'Animals':['Dog','Cat','Bird','Horse','Fish','Rabbit','Chicken','Cow','Sheep','Kangaroo','Koala','Pet','Animal'],
+'Countries':['Australia','England','Scotland','Ireland','New Zealand','United States','Canada','France','Italy','Germany','Spain','Greece','Japan','China','India','Thailand','Vietnam','Indonesia','South Africa'],
+'Places':['Home','Hospital','Doctor','Shops','Kitchen','Bedroom','Bathroom','Garden','Park','Restaurant','Cafe','Beach','Outside','Inside','Here','There'],
+'Body & Health':['Head','Eye','Ear','Mouth','Throat','Neck','Arm','Hand','Finger','Chest','Stomach','Back','Leg','Foot','Pain','Dizzy','Sick','Tired','Medicine','Toilet','Help'],
+'Feelings':['Happy','Sad','Angry','Scared','Worried','Frustrated','Excited','Tired','Calm','Lonely','Confused','Good','Bad','Love','Upset','Comfortable','Uncomfortable'],
+'Home':['Bed','Chair','Table','Door','Window','Light','Television','Phone','Blanket','Pillow','Clothes','Shoes','Kitchen','Bathroom','Garden','Remote','Air conditioner'],
+'Activities':['Watch TV','Listen to music','Read','Rest','Sleep','Walk','Sit','Stand','Go out','Visit','Talk','Call','Eat','Drink','Shower','Get dressed','Play','Garden'],
+'Clothing':['Shirt','Pants','Dress','Jacket','Jumper','Shoes','Socks','Underwear','Pyjamas','Hat','Warm','Cold','Change'],
+'Time & Weather':['Morning','Afternoon','Evening','Night','Today','Tomorrow','Yesterday','Now','Later','Soon','Before','After','Hot','Cold','Rain','Sunny','Windy'],
+'Transport':['Car','Bus','Train','Taxi','Wheelchair','Drive','Ride','Go','Stop','Home','Hospital','Shops']
+};
+const common=['a','the','to','do','you','I','want','can','for','it','that','ABC'];const cats=['Questions','Statements','Categories','A–Z','Quick'];let category='Questions',questionGroup=null,statementGroup=null,topic=null,letter='A',sentence=[],typed='',keyboardMode='general',keyboardTopic=null;
+const menuIcons={'Questions':'❓','Statements':'💬','Categories':'📁','A–Z':'🔤','Quick':'⚡'};
+const topicIcons={'Food':'🍽️','Drinks':'🥤','People':'👥','Animals':'🐶','Countries':'🌍','Places':'📍','Body & Health':'❤️','Feelings':'😊','Home':'🏠','Activities':'🎨','Clothing':'👕','Time & Weather':'🌤️','Transport':'🚗'};
+function iconButton(name,icon,action,cls){
+ const b=button('',action,((cls||'')+' icon-button').trim());
+ const picture=document.createElement('span');picture.className='category-icon';picture.textContent=icon;picture.setAttribute('aria-hidden','true');
+ const label=document.createElement('span');label.className='category-name';label.textContent=name;
+ b.replaceChildren(picture,label);b.setAttribute('aria-label',name);return b;
+}
+const $=id=>document.getElementById(id);const savedKey='mumsWordsPersonalV1';let personal=[];try{const v=JSON.parse(localStorage.getItem(savedKey)||'[]');if(Array.isArray(v))personal=v.filter(x=>typeof x==='string').slice(0,2000)}catch(e){}
+const customCategoriesKey='mumsWordsCustomCategoriesV1';let customCategories=[];try{const v=JSON.parse(localStorage.getItem(customCategoriesKey)||'[]');if(Array.isArray(v))customCategories=v.filter(x=>typeof x==='string'&&x.trim()&&x.length<=60&&!Object.keys(topicWords).some(k=>k.toLowerCase()===x.toLowerCase())).slice(0,100)}catch(e){}
+customCategories.forEach(name=>{topicWords[name]=[]});
+const categorySavedKey='mumsWordsCategoriesV1';let categorySaved={};
+try{const value=JSON.parse(localStorage.getItem(categorySavedKey)||'{}');if(value&&typeof value==='object'&&!Array.isArray(value)){for(const name of Object.keys(topicWords)){if(Array.isArray(value[name]))categorySaved[name]=value[name].filter(w=>typeof w==='string'&&w.trim()).slice(0,500)}}}catch(e){}
+function storeCustomCategories(){try{localStorage.setItem(customCategoriesKey,JSON.stringify(customCategories));return true}catch(e){return false}}
+function storeCategoryWords(){try{localStorage.setItem(categorySavedKey,JSON.stringify(categorySaved));return true}catch(e){return false}}
+function button(text,onclick,cls){const b=document.createElement('button');b.textContent=text;if(cls)b.className=cls;b.addEventListener('click',onclick);return b}
+// Vocabulary editor: original words remain as stable keys; overrides are persisted separately.
+const overrideKey='mumsWordsOverridesV1', hiddenKey='mumsWordsHiddenV1', pinnedKey='mumsWordsPinnedV1';
+let overrides={},hidden=[],pinned=[],editMode=false,editTarget=null;
+try{const v=JSON.parse(localStorage.getItem(overrideKey)||'{}');if(v&&typeof v==='object'&&!Array.isArray(v))overrides=v}catch(e){}
+try{const v=JSON.parse(localStorage.getItem(hiddenKey)||'[]');if(Array.isArray(v))hidden=v.filter(x=>typeof x==='string')}catch(e){}
+try{const v=JSON.parse(localStorage.getItem(pinnedKey)||'[]');if(Array.isArray(v))pinned=[...new Set(v.filter(x=>typeof x==='string'&&x.length<=100))].slice(0,4000)}catch(e){}
+const displayWord=w=>Object.prototype.hasOwnProperty.call(overrides,w)?overrides[w]:w;
+const visibleWord=w=>!hidden.includes(w);
+const isPinned=w=>pinned.includes(w);
+function sortedWithPins(items){return items.slice().sort((a,b)=>Number(isPinned(b))-Number(isPinned(a))||displayWord(a).localeCompare(displayWord(b)))}
+function saveEdits(){try{localStorage.setItem(overrideKey,JSON.stringify(overrides));localStorage.setItem(hiddenKey,JSON.stringify(hidden));localStorage.setItem(pinnedKey,JSON.stringify(pinned));return true}catch(e){alert('Unable to save edits. Check storage availability.');return false}}
+function closeEdit(){editTarget=null;$('edit-overlay').classList.remove('show')}
+function openEdit(w){if(!editMode)return;editTarget=w;$('edit-title').textContent=`Manage “${displayWord(w)}”`;$('edit-hint').textContent='Pin this word to the top of its word lists, rename it, or delete it. Delete requires confirmation.';$('edit-pin').textContent=isPinned(w)?'📌 Unpin Word':'📌 Pin to Top';$('edit-overlay').classList.add('show')}
+function editableButton(original,action){
+ const b=button(displayWord(original),()=>{if(editMode){if(!held)openEdit(original)}else action()},editMode?'editable-on':'');
+ if(isPinned(original)){b.classList.add('is-pinned');b.setAttribute('aria-label',displayWord(original)+', pinned to top');}
+ if(!editMode)return b;
+ let timer=null,held=false,startX=0,startY=0;
+ b.addEventListener('pointerdown',e=>{if(e.button!==0)return;held=false;startX=e.clientX;startY=e.clientY;clearTimeout(timer);timer=setTimeout(()=>{held=true;openEdit(original)},950)});
+ b.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-startX)>12||Math.abs(e.clientY-startY)>12)clearTimeout(timer)});
+ for(const ev of ['pointerup','pointercancel','pointerleave'])b.addEventListener(ev,()=>clearTimeout(timer));
+ b.addEventListener('contextmenu',e=>{e.preventDefault();clearTimeout(timer);held=true;openEdit(original)});
+ b.addEventListener('click',e=>{if(held){e.stopImmediatePropagation();held=false}},true);
+ b.title='Tap to edit or hold for about one second';return b;
+}
+$('edit-toggle').onclick=()=>{
+ editMode=!editMode;$('edit-toggle').textContent=editMode?'🔓 Edit Mode: ON':'🔒 Edit Mode: OFF';$('edit-toggle').classList.toggle('on',editMode);$('edit-toggle').setAttribute('aria-pressed',String(editMode));$('edit-tip').textContent=editMode?'Editing enabled — tap a word to edit or delete it. Turn OFF when finished.':'Normal mode — tap words to add them to a sentence.';closeEdit();show();
+};
+$('edit-cancel').onclick=closeEdit;
+$('edit-pin').onclick=()=>{
+ if(!editTarget)return;const w=editTarget;
+ if(isPinned(w))pinned=pinned.filter(x=>x!==w);else pinned.push(w);
+ if(saveEdits()){closeEdit();show()}
+};
+$('edit-remove').onclick=()=>{
+ if(!editTarget)return;
+ const w=editTarget;
+ if(!confirm(`Delete “${displayWord(w)}” from all word pages? You can restore a built-in word later by clearing browser edits or importing a backup.`))return;
+ if(!hidden.includes(w))hidden.push(w);
+ if(saveEdits()){closeEdit();show()} 
+};
+$('edit-rename').onclick=()=>{
+ if(!editTarget)return;
+ keyboardMode='edit';keyboardTopic=null;typed=displayWord(editTarget);
+ $('status').textContent='';$('keyboard-title').textContent='Edit word';$('keyboard-tip').textContent='Save changes updates this word wherever it appears. Built-in vocabulary remains in the original file.';
+ $('save').textContent='Save Changes';$('add').style.display='none';updateTyped();$('edit-overlay').classList.remove('show');$('overlay').classList.add('show');
+};
+const nextWordMap={
+ 'i':['am','want','need','feel','think'],
+ 'i want':['to','some','more','my','a'],
+ 'i want to':['watch','go','eat','see','make'],
+ 'i need':['help','to','some','my','a'],
+ 'i need to':['go','rest','sit','talk','sleep'],
+ 'i feel':['tired','sick','happy','sad','uncomfortable'],
+ 'i am':['tired','hungry','cold','hot','okay'],
+ 'i have':['a','pain','some','to','had'],
+ 'i think':['that','so','we','it','you'],
+ 'i don\'t':['know','want','like','feel','understand'],
+ 'i can':['see','hear','do','try','help'],
+ 'can you':['help','please','get','show','tell'],
+ 'do you':['know','want','remember','have','think'],
+ 'what is':['that','this','it','happening','wrong'],
+ 'what do':['you','we','i','they','you think'],
+ 'how are':['you','they','we','things','you feeling'],
+ 'where is':['it','my','the','mum','dad'],
+ 'it is':['too','good','bad','not','okay'],
+ 'please':['help','wait','stop','listen','come'],
+ 'thank':['you','you so much','goodness','you again','you for helping'],
+ 'i would like':['some','to','a','more','the'],
+ 'we':['can','need','should','are','will'],
+ 'we can':['go','do','watch','make','try'],
+ 'we do':['that','it','this','not','need'],
+ 'we need':['to','more','help','some','a'],
+ 'we want':['to','some','more','a','the'],
+ 'they are':['coming','here','okay','not','going'],
+ 'you can':['do','help','watch','make','see'],
+ 'can':['you','i','we','they','it']
+};
+const defaultPredictions=['I','you','to','the','please'];
+function predictNext(){
+ const clean=sentence.join(' ').trim().toLowerCase().replace(/[?!.,]+$/,'').replace(/\s+/g,' ');
+ let candidates=defaultPredictions;
+ const keys=Object.keys(nextWordMap).sort((a,b)=>b.length-a.length);
+ const match=keys.find(key=>clean===key||clean.endsWith(' '+key));
+ if(match)candidates=nextWordMap[match];
+ else if(clean){
+  const last=clean.split(' ').at(-1);
+  if(['a','the','my','some'].includes(last))candidates=['water','food','toilet','doctor','phone'];
+  else if(last==='to')candidates=['go','watch','make','eat','talk'];
+  else if(last==='because')candidates=['I','it','you','we','they'];
+ }
+ const el=$('predictions');el.replaceChildren();
+ candidates.slice(0,5).forEach(w=>el.append(button(w,()=>addWord(w))));
+}
+function wordChoices(query){
+ const q=query.trim().toLowerCase();if(!q)return [];
+ const pool=[...baseWords,...personal,...Object.values(topicWords).flat(),...Object.values(categorySaved).flat()];
+ const results=[...new Set(pool.map(w=>w.trim()).filter(Boolean))].filter(w=>w.toLowerCase().startsWith(q));
+ // Prefer the shortest completions, then alphabetical order.
+ return results.sort((a,b)=>(a.length-b.length)||a.localeCompare(b)).slice(0,8);
+}
+function updateAutocomplete(){
+ const el=$('auto-suggestions');el.replaceChildren();
+ const choices=wordChoices(typed);
+ if(!choices.length){const note=document.createElement('span');note.className='small';note.textContent=typed.trim()?'No matches — you can still add or save your own word.':'Start spelling to see matching words.';el.append(note);return;}
+ choices.forEach(w=>el.append(button(w,()=>{typed=w;updateTyped()})));
+}
+function update(){ $('sentence').textContent=sentence.length?sentence.join(' ').replace(/\s+([?.!,])/g,'$1'):'Tap a word to begin…';predictNext();}
+function addWord(w){sentence.push(w);update()}
+function speak(t){if(!('speechSynthesis' in window)){alert('Speech is not available in this browser. Try Chrome on Android.');return;}const u=new SpeechSynthesisUtterance(t);u.lang='en-AU';u.rate=.85;window.speechSynthesis.cancel();window.speechSynthesis.speak(u)}
+function show(){
+ const side=$('side');side.replaceChildren();
+ cats.forEach(c=>side.append(iconButton(c,menuIcons[c],()=>{category=c;questionGroup=null;statementGroup=null;topic=null;show()},category===c?'active':'')));
+ const letters=$('letters');letters.replaceChildren();letters.style.display=category==='A–Z'?'flex':'none';
+ if(category==='A–Z')'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(l=>letters.append(button(l,()=>{letter=l;show()},l===letter?'active':'')));
+ const titles={'Questions':questionGroup?`${questionGroup.toUpperCase()} questions`:'Choose a question word','Statements':statementGroup?`${statementGroup.toUpperCase()} statements`:'Choose a statement starter','Categories':topic?topic:'Choose a category','A–Z':`Words beginning with ${letter}`,'Quick':'Quick messages'};
+ $('heading').textContent=titles[category];
+ $('category-tools').style.display=category==='Categories'?'flex':'none';
+ $('back-category').style.display=topic?'':'none';
+ $('add-category').style.display=topic?'':'none';
+ $('add-new-category').style.display=topic?'none':'';
+
+ let items=pages[category];
+ if(category==='Questions')items=questionGroup?questionGroups[questionGroup]:Object.keys(questionGroups);
+ if(category==='Statements')items=statementGroup?statementGroups[statementGroup]:Object.keys(statementGroups);
+ if(category==='Categories')items=topic?sortedWithPins([...new Set([...topicWords[topic],...(categorySaved[topic]||[])])].filter(visibleWord)):Object.keys(topicWords);
+ if(category==='A–Z')items=[...new Set([...baseWords,...personal,...Object.values(categorySaved).flat()])].filter(x=>visibleWord(x)&&displayWord(x).toUpperCase().startsWith(letter));
+ if(category==='A–Z')items=sortedWithPins(items);
+ if((category==='Questions'&&questionGroup)||(category==='Statements'&&statementGroup)||category==='Quick')items=sortedWithPins(items);
+ const tiles=$('tiles');tiles.replaceChildren();tiles.scrollTop=0;
+ if(category==='Categories'&&topic&&items.length===0){const note=document.createElement('div');note.className='empty-category';note.textContent='This category is empty. Tap + Add Word above to add its first word.';tiles.append(note)}
+ if(category==='Questions'&&questionGroup){
+   tiles.append(button('← Back to questions',()=>{questionGroup=null;show()},'back-tile'));
+ }
+ if(category==='Statements'&&statementGroup){
+   tiles.append(button('← Back to statements',()=>{statementGroup=null;show()},'back-tile'));
+ }
+
+ items.filter(w=>(category==='Questions'&&!questionGroup)||(category==='Statements'&&!statementGroup)||(category==='Categories'&&!topic)||visibleWord(w)).forEach(w=>{
+  const choose=()=>{
+   if(category==='Questions'&&!questionGroup){questionGroup=w;show();}
+   else if(category==='Statements'&&!statementGroup){statementGroup=w;show();}
+   else if(category==='Categories'&&!topic){topic=w;show();}
+   else if(category==='Quick'){speak(displayWord(w))}else addWord(displayWord(w));
+  };
+  const topCategory=(category==='Categories'&&!topic);
+  const isFolder=(category==='Questions'&&!questionGroup)||(category==='Statements'&&!statementGroup)||topCategory;
+  tiles.append(topCategory?iconButton(w,topicIcons[w]||'📁',choose):isFolder?button(w,choose):editableButton(w,()=>{if(category==='Quick')speak(displayWord(w));else addWord(displayWord(w))}));
+ }); 
+}
+common.forEach(w=>$('common').append(button(w,()=>w==='ABC'?openKeyboard():addWord(displayWord(w)),w==='ABC'?'abc':''))); 
+$('speak').onclick=()=>{if(sentence.length)speak(sentence.join(' '));};$('del').onclick=()=>{sentence.pop();update()};$('clear').onclick=()=>{sentence=[];update()};$('help').onclick=()=>speak('I need help, please.');
+
+function backupNotice(msg){$('backup-message').textContent=msg;}
+function uniqueWords(arr,max){return [...new Map(arr.filter(v=>typeof v==='string').map(v=>v.trim().replace(/\s+/g,' ')).filter(v=>v&&v.length<=100).map(v=>[v.toLowerCase(),v])).values()].slice(0,max)}
+$('backup-vocab').onclick=()=>{
+ const data={format:'mums-words-backup',version:1,exportedAt:new Date().toISOString(),personalWords:personal.slice(),customCategories:customCategories.slice(),categoryWords:categorySaved,wordOverrides:overrides,hiddenWords:hidden,pinnedWords:pinned.slice()};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='MumsWords_FullBackup_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),60000);
+ backupNotice('Full vocabulary backup requested. Save the .json file in Files or iCloud Drive.');
+};
+$('restore-vocab').onclick=()=>{$('backup-file').value='';$('backup-file').click()};
+$('backup-file').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ if(file.size>3_000_000){alert('This backup file is too large.');return;}
+ try{
+  const data=JSON.parse(await file.text());
+  if(!data||data.format!=='mums-words-backup'||data.version!==1||!Array.isArray(data.personalWords)||!Array.isArray(data.customCategories)||!data.categoryWords||typeof data.categoryWords!=='object'||Array.isArray(data.categoryWords))throw Error('Not a valid Mum’s Words backup.');
+  if(data.personalWords.length>5000||data.customCategories.length>200||Object.keys(data.categoryWords).length>300)throw Error('This backup has too many entries.');
+  const newCats=uniqueWords(data.customCategories,100).filter(x=>x.length<=40);
+  const allNames=new Set(Object.keys(topicWords).map(x=>x.toLowerCase()));
+  const mergedCats=customCategories.slice();
+  for(const name of newCats){if(!allNames.has(name.toLowerCase())&&mergedCats.length<100){mergedCats.push(name);allNames.add(name.toLowerCase())}}
+  const mergedWords={...categorySaved};
+  const allCategoryNames=[...Object.keys(topicWords),...mergedCats];
+  for(const name of allCategoryNames){
+   const backupKey=Object.keys(data.categoryWords).find(k=>k.toLowerCase()===name.toLowerCase());
+   if(!backupKey)continue;
+   const incoming=data.categoryWords[backupKey];if(!Array.isArray(incoming))continue;
+   mergedWords[name]=uniqueWords([...(mergedWords[name]||[]),...incoming],500);
+  }
+  const mergedPersonal=uniqueWords([...personal,...data.personalWords,...Object.values(mergedWords).flat()],2000);
+  // Write all values before changing the live interface. A second import only merges entries.
+  localStorage.setItem(savedKey,JSON.stringify(mergedPersonal));
+  localStorage.setItem(customCategoriesKey,JSON.stringify(mergedCats));
+  localStorage.setItem(categorySavedKey,JSON.stringify(mergedWords));
+  if(data.wordOverrides&&typeof data.wordOverrides==='object'&&!Array.isArray(data.wordOverrides)){for(const [k,v] of Object.entries(data.wordOverrides).slice(0,4000)){if(typeof v==='string'&&v.trim()&&v.length<=100)overrides[k]=v.trim()}}
+  if(Array.isArray(data.hiddenWords))hidden=[...new Set([...hidden,...data.hiddenWords.filter(w=>typeof w==='string').slice(0,4000)])];
+  if(Array.isArray(data.pinnedWords))pinned=[...new Set([...pinned,...data.pinnedWords.filter(w=>typeof w==='string'&&w.length<=100).slice(0,4000)])].slice(0,4000);
+  saveEdits();
+  personal=mergedPersonal;customCategories=mergedCats;categorySaved=mergedWords;
+  mergedCats.forEach(name=>{topicWords[name]??=[]});
+  topic=null;category='Categories';show();
+  backupNotice('Backup imported! Existing words were kept and new ones added.');
+  alert('Backup imported successfully! Existing words and categories were kept.');
+ }catch(err){alert('Could not import the backup: '+(err.message||'unknown error'));}
+});
+
+$('back-category').onclick=()=>{topic=null;show()};
+$('add-new-category').onclick=()=>{keyboardMode='newcategory';keyboardTopic=null;typed='';$('status').textContent='';$('keyboard-title').textContent='Create a new category';$('keyboard-tip').textContent='Give your new category a name, then tap Save Category. You can add words to it afterwards.';$('save').textContent='Save Category';$('add').style.display='none';updateTyped();$('overlay').classList.add('show')};
+$('add-category').onclick=()=>{if(!topic)return;$('add').style.display='';keyboardMode='category';keyboardTopic=topic;typed='';$('status').textContent='';$('keyboard-title').textContent=`Add a word to ${topic}`;$('keyboard-tip').textContent=`Save adds the word to ${topic} and to the A–Z library on this device.`;$('save').textContent=`Save to ${topic}`;updateTyped();$('overlay').classList.add('show')};
+function openKeyboard(){ $('add').style.display='';keyboardMode='general';keyboardTopic=null;typed='';$('status').textContent='';$('keyboard-title').textContent='Type your own word';$('keyboard-tip').textContent='Saved words appear in the A–Z library under their first letter. This demo stores them in this browser only.';$('save').textContent='Save word';updateTyped();$('overlay').classList.add('show')};function updateTyped(){$('typed').textContent=typed||' ';updateAutocomplete();}function closeKeyboard(){$('overlay').classList.remove('show')};
+'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(l=>$('keys').append(button(l,()=>{typed+=l.toLowerCase();updateTyped()})));
+$('space').onclick=()=>{typed+=' ';updateTyped()};$('backspace').onclick=()=>{typed=typed.slice(0,-1);updateTyped()};$('close').onclick=closeKeyboard;
+$('add').onclick=()=>{const val=typed.trim();if(!val)return;addWord(val);closeKeyboard()};$('save').onclick=()=>{const val=typed.trim().replace(/\s+/g,' ');if(!val){$('status').textContent='Type a word first.';return;}
+ if(keyboardMode==='edit'){
+  if(val.length>100){$('status').textContent='Please use a shorter word or phrase.';return;}
+  if(!editTarget){$('status').textContent='Please reopen the editor.';return;}
+  overrides[editTarget]=val;if(saveEdits()){closeKeyboard();editTarget=null;show()}return;
+ }
+ if(keyboardMode==='newcategory'){
+  const name=val;
+  if(name.length>40){$('status').textContent='Please use a name shorter than 40 characters.';return;}
+  if(Object.keys(topicWords).some(k=>k.toLowerCase()===name.toLowerCase())){$('status').textContent='That category already exists.';return;}
+  customCategories.push(name);
+  if(!storeCustomCategories()){customCategories.pop();$('status').textContent='Could not save this category on this device.';return;}
+  topicWords[name]=[];category='Categories';topic=name;show();closeKeyboard();return;
+ }
+ if(keyboardMode==='category'&&keyboardTopic){const group=keyboardTopic;const exists=[...topicWords[group],...(categorySaved[group]||[])].some(x=>x.toLowerCase()===val.toLowerCase());if(exists){$('status').textContent=`“${val}” is already in ${group}.`;return;}categorySaved[group]??=[];categorySaved[group].push(val);if(!storeCategoryWords()){$('status').textContent='Unable to save on this device. Check browser storage settings.';categorySaved[group].pop();return;}}
+ if(![...baseWords,...personal].some(x=>x.toLowerCase()===val.toLowerCase())){personal.push(val);try{localStorage.setItem(savedKey,JSON.stringify(personal))}catch(e){$('status').textContent='The A–Z copy could not be saved.'}}
+ if(keyboardMode==='category'&&keyboardTopic){$('status').textContent=`Saved “${val}” to ${keyboardTopic}!`;show();setTimeout(closeKeyboard,650)}else{$('status').textContent=`Saved “${val}” to the A–Z library.`;show()}
+};
+document.addEventListener('keydown',e=>{if(!$('overlay').classList.contains('show'))return;if(e.key==='Escape')closeKeyboard();else if(e.key==='Backspace'){typed=typed.slice(0,-1);updateTyped()}else if(e.key.length===1&&/[a-z ]/i.test(e.key)){typed+=e.key;updateTyped()}});update();show();
+})();
+</script></body></html>
