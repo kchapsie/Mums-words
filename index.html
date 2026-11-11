@@ -37,8 +37,23 @@ button:focus-visible{outline-color:#A8573D}
 .exit-card{max-width:620px;background:white;border:2px solid #DEB5A1;border-radius:22px;padding:26px;display:flex;flex-direction:column;align-items:center;gap:12px}
 .exit-card img{width:86px;height:86px;border-radius:16px}.exit-card h2{margin:2px;font-size:28px}.exit-card p{font-size:22px;line-height:1.4}.exit-card button{font-size:21px;padding:16px;background:#F9DCCB;font-weight:bold}
 @media(max-height:550px){.logo-menu-button{min-width:55px;width:55px}.logo-menu-button img{width:44px;height:44px}.app-menu{top:65px}}
-</style></head><body><main class="app"><div class="sentence-row"><div id="sentence" class="sentence" aria-live="polite">Tap a word to begin…</div><button class="action" id="speak" aria-label="Speak sentence">🔊<br>Speak</button><button class="action warn" id="del">⌫<br>Delete</button><button class="action warn" id="clear">Clear</button><button class="action logo-menu-button" id="menu-toggle" aria-label="Open Mum’s Words menu" aria-expanded="false" aria-controls="app-menu"><img src="./apple-touch-icon.png" alt="Mum’s Words logo"></button></div><div class="prediction-row"><div class="prediction-label">NEXT WORD</div><div class="predictions" id="predictions" aria-label="Suggested next words"></div></div><div class="common" id="common"></div><div class="body"><nav class="side" id="side"></nav><section class="content"><div class="letters" id="letters"></div><div class="heading" id="heading"></div><div class="category-tools" id="category-tools"><button class="back" id="back-category">← Back to Categories</button><button class="add-category" id="add-category">＋ Add Word</button><button class="add-new-category" id="add-new-category">＋ Add Category</button></div><div class="tiles" id="tiles"></div></section></div><div class="edit-controls" aria-label="Vocabulary management"><input type="file" id="backup-file" accept=".json,application/json" hidden><button id="edit-toggle" type="button" class="edit-toggle" aria-pressed="false">🔒 Edit Mode: OFF</button><span id="edit-tip">Normal mode — tap words to add them to a sentence.</span></div><div class="foot"><span>Mum's Words • version 16 </span><span id="backup-message" role="status">Words saved on this device — make regular backups</span></div></main>
-<div id="app-menu" class="app-menu" role="group" aria-label="Mum’s Words menu" hidden><div class="menu-heading">Mum’s Words</div><button id="backup-vocab" type="button">⬇ Backup everything</button><button id="restore-vocab" type="button">⬆ Import backup</button><button id="menu-exit" type="button">⌂ Exit app</button><button id="menu-close" type="button" class="menu-close">Close menu</button></div><div id="exit-guide" class="exit-guide" hidden><div class="exit-card"><img src="./apple-touch-icon.png" alt=""><h2>Leaving Mum’s Words</h2><p>To return to your iPad Home Screen, swipe up from the bottom edge of the screen. If your iPad has a Home button, press it instead.</p><button id="exit-return" type="button">← Return to Mum’s Words</button></div></div><div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Type your own word"><div class="dialog"><h2 id="keyboard-title">Type your own word</h2><div class="typed" id="typed" aria-live="polite">&nbsp;</div><div class="auto-title">WORD SUGGESTIONS — tap to complete</div><div class="auto-suggestions" id="auto-suggestions"></div><div class="keys" id="keys"></div><div class="dialog-actions"><button id="space">Space</button><button id="backspace">⌫ Delete</button><button id="add" class="primary">Add to sentence</button><button id="save">Save word</button><button id="close">Close</button></div><div class="status" id="status"></div><div class="small" id="keyboard-tip">Saved words appear in the A–Z library under their first letter. This demo stores them in this browser only.</div></div></div>
+
+/* Version 18: recovery controls and clear save feedback */
+.app-menu .menu-stats{background:#FFF1E6;border:1px solid #E7C7B4;border-radius:10px;padding:10px;font-size:15px;line-height:1.5;color:#513B34}
+.backup-panel{position:fixed;inset:0;background:#241710b0;z-index:30;display:none;align-items:center;justify-content:center;padding:18px}
+.backup-panel.show{display:flex}
+.backup-card{background:#FFF9F4;border:2px solid #DAB7A3;border-radius:18px;padding:20px;width:min(610px,100%);max-height:90dvh;overflow:auto;color:#362922;box-shadow:0 20px 50px #2f1b1650}
+.backup-card h2{margin:0 0 10px}.backup-card p{font-size:17px;line-height:1.5}
+.backup-counts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.backup-counts div{border:1px solid #D8B49E;background:#FFEEE3;padding:12px;border-radius:10px;font-weight:bold}
+.backup-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.backup-actions button{padding:13px;font-weight:bold;flex:1;min-height:52px;background:#F9D8C4}
+.backup-actions .cancel{background:white}
+.save-indicator{font-size:13px;color:#38734A;font-weight:bold;padding:2px 7px}
+.save-indicator.failed{color:#A33028}
+</style></head><body><main class="app"><div class="sentence-row"><div id="sentence" class="sentence" aria-live="polite">Tap a word to begin…</div><button class="action" id="speak" aria-label="Speak sentence">🔊<br>Speak</button><button class="action warn" id="del">⌫<br>Delete</button><button class="action warn" id="clear">Clear</button><button class="action logo-menu-button" id="menu-toggle" aria-label="Open Mum’s Words menu" aria-expanded="false" aria-controls="app-menu"><img src="./apple-touch-icon.png" alt="Mum’s Words logo"></button></div><div class="prediction-row"><div class="prediction-label">NEXT WORD</div><div class="predictions" id="predictions" aria-label="Suggested next words"></div></div><div class="common" id="common"></div><div class="body"><nav class="side" id="side"></nav><section class="content"><div class="letters" id="letters"></div><div class="heading" id="heading"></div><div class="category-tools" id="category-tools"><button class="back" id="back-category">← Back to Categories</button><button class="add-category" id="add-category">＋ Add Word</button><button class="add-new-category" id="add-new-category">＋ Add Category</button></div><div class="tiles" id="tiles"></div></section></div><div class="edit-controls" aria-label="Vocabulary management"><input type="file" id="backup-file" accept=".json,application/json" hidden><button id="edit-toggle" type="button" class="edit-toggle" aria-pressed="false">🔒 Edit Mode: OFF</button><span id="edit-tip">Normal mode — tap words to add them to a sentence.</span></div><div class="foot"><span>Mum's Words • version 18 </span><span id="backup-message" role="status">Words saved on this device — make regular backups</span><span id="save-indicator" class="save-indicator" aria-live="polite">● Local storage</span></div></main>
+<div id="app-menu" class="app-menu" role="group" aria-label="Mum’s Words menu" hidden><div class="menu-heading">Mum’s Words</div><div id="menu-stats" class="menu-stats">Checking saved vocabulary…</div><button id="backup-status" type="button">▤ Backup status</button><button id="backup-vocab" type="button">⬇ Backup everything</button><button id="restore-vocab" type="button">⬆ Import backup</button><button id="menu-exit" type="button">⌂ Exit app</button><button id="menu-close" type="button" class="menu-close">Close menu</button></div><div id="exit-guide" class="exit-guide" hidden><div class="exit-card"><img src="./apple-touch-icon.png" alt=""><h2>Leaving Mum’s Words</h2><p>To return to your iPad Home Screen, swipe up from the bottom edge of the screen. If your iPad has a Home button, press it instead.</p><button id="exit-return" type="button">← Return to Mum’s Words</button></div></div><div id="backup-panel" class="backup-panel" role="dialog" aria-modal="true" aria-label="Backup and restore vocabulary"><div class="backup-card"><h2 id="backup-title">Vocabulary backup</h2><p id="backup-description"></p><div id="backup-counts" class="backup-counts"></div><p id="backup-warning" class="small"></p><div id="backup-actions" class="backup-actions"></div></div></div>
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Type your own word"><div class="dialog"><h2 id="keyboard-title">Type your own word</h2><div class="typed" id="typed" aria-live="polite">&nbsp;</div><div class="auto-title">WORD SUGGESTIONS — tap to complete</div><div class="auto-suggestions" id="auto-suggestions"></div><div class="keys" id="keys"></div><div class="dialog-actions"><button id="space">Space</button><button id="backspace">⌫ Delete</button><button id="add" class="primary">Add to sentence</button><button id="save">Save word</button><button id="close">Close</button></div><div class="status" id="status"></div><div class="small" id="keyboard-tip">Saved words appear in the A–Z library under their first letter. This demo stores them in this browser only.</div></div></div>
 <div class="overlay" id="edit-overlay" role="dialog" aria-modal="true" aria-label="Edit vocabulary word"><div class="dialog edit-dialog"><h2 id="edit-title">Manage word</h2><p id="edit-hint">Choose an action.</p><div class="dialog-actions"><button id="edit-rename" class="primary">✎ Edit</button><button id="edit-pin">📌 Pin to Top</button><button id="edit-remove" class="danger">🗑 Delete</button><button id="edit-cancel">Cancel</button></div></div></div>
 <script>
 (()=>{'use strict';
@@ -88,8 +103,8 @@ const customCategoriesKey='mumsWordsCustomCategoriesV1';let customCategories=[];
 customCategories.forEach(name=>{topicWords[name]=[]});
 const categorySavedKey='mumsWordsCategoriesV1';let categorySaved={};
 try{const value=JSON.parse(localStorage.getItem(categorySavedKey)||'{}');if(value&&typeof value==='object'&&!Array.isArray(value)){for(const name of Object.keys(topicWords)){if(Array.isArray(value[name]))categorySaved[name]=value[name].filter(w=>typeof w==='string'&&w.trim()).slice(0,500)}}}catch(e){}
-function storeCustomCategories(){try{localStorage.setItem(customCategoriesKey,JSON.stringify(customCategories));return true}catch(e){return false}}
-function storeCategoryWords(){try{localStorage.setItem(categorySavedKey,JSON.stringify(categorySaved));return true}catch(e){return false}}
+function storeCustomCategories(){try{localStorage.setItem(customCategoriesKey,JSON.stringify(customCategories));updateSaveIndicator(true);return true}catch(e){updateSaveIndicator(false);return false}}
+function storeCategoryWords(){try{localStorage.setItem(categorySavedKey,JSON.stringify(categorySaved));updateSaveIndicator(true);return true}catch(e){updateSaveIndicator(false);return false}}
 function button(text,onclick,cls){const b=document.createElement('button');b.textContent=text;if(cls)b.className=cls;b.addEventListener('click',onclick);return b}
 // Vocabulary editor: original words remain as stable keys; overrides are persisted separately.
 const overrideKey='mumsWordsOverridesV1', hiddenKey='mumsWordsHiddenV1', pinnedKey='mumsWordsPinnedV1';
@@ -101,7 +116,7 @@ const displayWord=w=>Object.prototype.hasOwnProperty.call(overrides,w)?overrides
 const visibleWord=w=>!hidden.includes(w);
 const isPinned=w=>pinned.includes(w);
 function sortedWithPins(items){return items.slice().sort((a,b)=>Number(isPinned(b))-Number(isPinned(a))||displayWord(a).localeCompare(displayWord(b)))}
-function saveEdits(){try{localStorage.setItem(overrideKey,JSON.stringify(overrides));localStorage.setItem(hiddenKey,JSON.stringify(hidden));localStorage.setItem(pinnedKey,JSON.stringify(pinned));return true}catch(e){alert('Unable to save edits. Check storage availability.');return false}}
+function saveEdits(){try{localStorage.setItem(overrideKey,JSON.stringify(overrides));localStorage.setItem(hiddenKey,JSON.stringify(hidden));localStorage.setItem(pinnedKey,JSON.stringify(pinned));updateSaveIndicator(true);return true}catch(e){updateSaveIndicator(false);alert('Unable to save edits. Check storage availability.');return false}}
 function closeEdit(){editTarget=null;$('edit-overlay').classList.remove('show')}
 function openEdit(w){if(!editMode)return;editTarget=w;$('edit-title').textContent=`Manage “${displayWord(w)}”`;$('edit-hint').textContent='Pin this word to the top of its word lists, rename it, or delete it. Delete requires confirmation.';$('edit-pin').textContent=isPinned(w)?'📌 Unpin Word':'📌 Pin to Top';$('edit-overlay').classList.add('show')}
 function editableButton(original,action){
@@ -254,51 +269,85 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);$('e
 
 function backupNotice(msg){$('backup-message').textContent=msg;}
 function uniqueWords(arr,max){return [...new Map(arr.filter(v=>typeof v==='string').map(v=>v.trim().replace(/\s+/g,' ')).filter(v=>v&&v.length<=100).map(v=>[v.toLowerCase(),v])).values()].slice(0,max)}
-$('backup-vocab').onclick=()=>{setMenu(false);
- const data={format:'mums-words-backup',version:1,exportedAt:new Date().toISOString(),personalWords:personal.slice(),customCategories:customCategories.slice(),categoryWords:categorySaved,wordOverrides:overrides,hiddenWords:hidden,pinnedWords:pinned.slice()};
- const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
- const url=URL.createObjectURL(blob),a=document.createElement('a');
- a.href=url;a.download='MumsWords_FullBackup_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();
- setTimeout(()=>URL.revokeObjectURL(url),60000);
- backupNotice('Full vocabulary backup requested. Save the .json file in Files or iCloud Drive.');
+
+const recoveryKey='mumsWordsRecoveryV18',dataKeys=[savedKey,customCategoriesKey,categorySavedKey,overrideKey,hiddenKey,pinnedKey];
+function collectBackup(){return {format:'mums-words-backup',version:1,exportedAt:new Date().toISOString(),personalWords:personal.slice(),customCategories:customCategories.slice(),categoryWords:JSON.parse(JSON.stringify(categorySaved)),wordOverrides:{...overrides},hiddenWords:hidden.slice(),pinnedWords:pinned.slice()};}
+function backupCounts(data){
+ const list=(data&&data.categoryWords&&typeof data.categoryWords==='object'&&!Array.isArray(data.categoryWords))?Object.values(data.categoryWords):[];
+ return {words:Array.isArray(data?.personalWords)?data.personalWords.length:0,categories:Array.isArray(data?.customCategories)?data.customCategories.length:0,categoryWords:list.reduce((n,x)=>n+(Array.isArray(x)?x.length:0),0),edits:data?.wordOverrides&&typeof data.wordOverrides==='object'?Object.keys(data.wordOverrides).length:0,hidden:Array.isArray(data?.hiddenWords)?data.hiddenWords.length:0,pins:Array.isArray(data?.pinnedWords)?data.pinnedWords.length:0};
+}
+function countText(c){return `${c.words} A–Z words · ${c.categories} custom categories · ${c.categoryWords} category entries · ${c.edits} edits · ${c.hidden} hidden · ${c.pins} pins`;}
+function presentCounts(c){const area=$('backup-counts');area.replaceChildren();for(const [label,k] of [['Custom A–Z words','words'],['Custom categories','categories'],['Words in categories','categoryWords'],['Edited words','edits'],['Hidden words','hidden'],['Pinned words','pins']]){const d=document.createElement('div');d.textContent=label+': '+c[k];area.append(d)}}
+function closeBackupPanel(){$('backup-panel').classList.remove('show')}
+function backupDialog(title,description,counts,actions,warning=''){
+ setMenu(false);$('backup-title').textContent=title;$('backup-description').textContent=description;presentCounts(counts);$('backup-warning').textContent=warning;
+ const el=$('backup-actions');el.replaceChildren();actions.forEach(([label,fn,isCancel])=>{const b=button(label,fn,isCancel?'cancel':'');el.append(b)});el.append(button('Cancel',closeBackupPanel,'cancel'));
+ $('backup-panel').classList.add('show');
+}
+function updateBackupStats(){const c=backupCounts(collectBackup());$('menu-stats').textContent='Saved on this device: '+countText(c);return c}
+function updateSaveIndicator(ok=true){const el=$('save-indicator');if(!el)return;el.classList.toggle('failed',!ok);el.textContent=ok?'● Saved on this device':'● Save failed — back up / check storage';updateBackupStats()}
+function downloadJSON(data,filename){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
+$('backup-status').onclick=()=>backupDialog('Vocabulary saved on this device','These counts show your personal additions and changes, not the built-in word library.',updateBackupStats(),[['Backup now',()=>{closeBackupPanel();$('backup-vocab').click()}],['View local recovery snapshot',()=>showRecovery()]],'Local data can differ between Safari and an iPad Home Screen web app. Keep a downloaded copy in Files or iCloud Drive.');
+$('backup-vocab').onclick=()=>{
+ const data=collectBackup(),counts=backupCounts(data);
+ backupDialog('Check your backup','Confirm the numbers below match the custom words and categories you expect to save.',counts,[["Download backup file",()=>{downloadJSON(data,'MumsWords_FullBackup_'+new Date().toISOString().slice(0,10)+'.json');backupNotice('Backup download requested — check that the file exists in Files before relying on it.');closeBackupPanel()}]],counts.words+counts.categoryWords+counts.categories===0?'Warning: No custom vocabulary was found on this device. Do not treat this as a backup of words saved in another browser or Home Screen app.':'Save the downloaded .json file somewhere safe.');
 };
+function showRecovery(){let recovery=null;try{recovery=JSON.parse(localStorage.getItem(recoveryKey)||'null')}catch(e){};
+ if(!recovery||!recovery.data){backupDialog('No recovery snapshot found','A local recovery snapshot will be made before a successful import attempt.',backupCounts(collectBackup()),[]);return}
+ backupDialog('Recovery snapshot',`Snapshot created ${recovery.savedAt||'previously'}. Restoring it will replace the current custom vocabulary on this device.`,backupCounts(recovery.data),[['Restore snapshot',()=>{
+ if(!confirm('Replace current personal vocabulary with this saved snapshot? Export a backup of the current data first.'))return;
+ try{const data=recovery.data;persistData(data);applyData(data);closeBackupPanel();backupNotice('Recovery snapshot restored and verified.');updateSaveIndicator(true);show()}catch(err){alert('Could not restore snapshot: '+err.message);updateSaveIndicator(false)}
+ }]],'This is a single local snapshot, not a cloud backup.');
+}
+function validateBackup(data){
+ if(!data||data.format!=='mums-words-backup'||data.version!==1||!Array.isArray(data.personalWords)||!Array.isArray(data.customCategories)||!data.categoryWords||typeof data.categoryWords!=='object'||Array.isArray(data.categoryWords))throw Error('Not a valid Mum’s Words backup.');
+ if(data.personalWords.length>5000||data.customCategories.length>200||Object.keys(data.categoryWords).length>300)throw Error('This backup has too many entries.');
+ for(const [name,words] of Object.entries(data.categoryWords)){if(name.length>100||!Array.isArray(words)||words.length>5000)throw Error('Invalid category word list.');}
+ if(data.wordOverrides!==undefined&&(typeof data.wordOverrides!=='object'||data.wordOverrides===null||Array.isArray(data.wordOverrides)))throw Error('Invalid word edits.');
+ if(data.hiddenWords!==undefined&&!Array.isArray(data.hiddenWords))throw Error('Invalid hidden words.');
+ if(data.pinnedWords!==undefined&&!Array.isArray(data.pinnedWords))throw Error('Invalid pins.');
+}
+function mergeBackup(data){
+ const newCats=uniqueWords(data.customCategories,100).filter(x=>x.length<=40);
+ const names=new Set(Object.keys(topicWords).map(x=>x.toLowerCase())),mergedCats=customCategories.slice();
+ for(const name of newCats){if(!names.has(name.toLowerCase())&&mergedCats.length<100){mergedCats.push(name);names.add(name.toLowerCase())}}
+ const mergedWords=JSON.parse(JSON.stringify(categorySaved));
+ for(const name of [...Object.keys(topicWords),...mergedCats]){
+  const backupKey=Object.keys(data.categoryWords).find(k=>k.toLowerCase()===name.toLowerCase());
+  if(!backupKey)continue;
+  mergedWords[name]=uniqueWords([...(mergedWords[name]||[]),...data.categoryWords[backupKey]],500);
+ }
+ const mergedPersonal=uniqueWords([...personal,...data.personalWords,...Object.values(mergedWords).flat()],2000);
+ const newOverrides={...overrides};if(data.wordOverrides){for(const [k,v] of Object.entries(data.wordOverrides).slice(0,4000)){if(typeof v==='string'&&v.trim()&&v.length<=100)newOverrides[k]=v.trim()}}
+ return {format:'mums-words-backup',version:1,exportedAt:new Date().toISOString(),personalWords:mergedPersonal,customCategories:mergedCats,categoryWords:mergedWords,wordOverrides:newOverrides,hiddenWords:[...new Set([...hidden,...(data.hiddenWords||[]).filter(w=>typeof w==='string')])].slice(0,4000),pinnedWords:[...new Set([...pinned,...(data.pinnedWords||[]).filter(w=>typeof w==='string'&&w.length<=100)])].slice(0,4000)};
+}
+function persistData(data){
+ const values=[data.personalWords,data.customCategories,data.categoryWords,data.wordOverrides,data.hiddenWords,data.pinnedWords];
+ const previous=dataKeys.map(k=>localStorage.getItem(k));
+ try{dataKeys.forEach((k,i)=>localStorage.setItem(k,JSON.stringify(values[i])));
+  dataKeys.forEach((k,i)=>{const actual=JSON.parse(localStorage.getItem(k)||'null');if(JSON.stringify(actual)!==JSON.stringify(values[i]))throw Error('Saved data did not match the expected data.');});
+ }catch(err){dataKeys.forEach((k,i)=>{try{if(previous[i]===null)localStorage.removeItem(k);else localStorage.setItem(k,previous[i])}catch(e){}});throw err}
+}
+function applyData(data){personal=data.personalWords.slice();customCategories=data.customCategories.slice();categorySaved=JSON.parse(JSON.stringify(data.categoryWords));overrides={...data.wordOverrides};hidden=data.hiddenWords.slice();pinned=data.pinnedWords.slice();customCategories.forEach(name=>{topicWords[name]??=[]});topic=null;category='Categories';}
 $('restore-vocab').onclick=()=>{setMenu(false);$('backup-file').value='';$('backup-file').click()};
 $('backup-file').addEventListener('change',async e=>{
- const file=e.target.files?.[0];if(!file)return;
- if(file.size>3_000_000){alert('This backup file is too large.');return;}
- try{
-  const data=JSON.parse(await file.text());
-  if(!data||data.format!=='mums-words-backup'||data.version!==1||!Array.isArray(data.personalWords)||!Array.isArray(data.customCategories)||!data.categoryWords||typeof data.categoryWords!=='object'||Array.isArray(data.categoryWords))throw Error('Not a valid Mum’s Words backup.');
-  if(data.personalWords.length>5000||data.customCategories.length>200||Object.keys(data.categoryWords).length>300)throw Error('This backup has too many entries.');
-  const newCats=uniqueWords(data.customCategories,100).filter(x=>x.length<=40);
-  const allNames=new Set(Object.keys(topicWords).map(x=>x.toLowerCase()));
-  const mergedCats=customCategories.slice();
-  for(const name of newCats){if(!allNames.has(name.toLowerCase())&&mergedCats.length<100){mergedCats.push(name);allNames.add(name.toLowerCase())}}
-  const mergedWords={...categorySaved};
-  const allCategoryNames=[...Object.keys(topicWords),...mergedCats];
-  for(const name of allCategoryNames){
-   const backupKey=Object.keys(data.categoryWords).find(k=>k.toLowerCase()===name.toLowerCase());
-   if(!backupKey)continue;
-   const incoming=data.categoryWords[backupKey];if(!Array.isArray(incoming))continue;
-   mergedWords[name]=uniqueWords([...(mergedWords[name]||[]),...incoming],500);
-  }
-  const mergedPersonal=uniqueWords([...personal,...data.personalWords,...Object.values(mergedWords).flat()],2000);
-  // Write all values before changing the live interface. A second import only merges entries.
-  localStorage.setItem(savedKey,JSON.stringify(mergedPersonal));
-  localStorage.setItem(customCategoriesKey,JSON.stringify(mergedCats));
-  localStorage.setItem(categorySavedKey,JSON.stringify(mergedWords));
-  if(data.wordOverrides&&typeof data.wordOverrides==='object'&&!Array.isArray(data.wordOverrides)){for(const [k,v] of Object.entries(data.wordOverrides).slice(0,4000)){if(typeof v==='string'&&v.trim()&&v.length<=100)overrides[k]=v.trim()}}
-  if(Array.isArray(data.hiddenWords))hidden=[...new Set([...hidden,...data.hiddenWords.filter(w=>typeof w==='string').slice(0,4000)])];
-  if(Array.isArray(data.pinnedWords))pinned=[...new Set([...pinned,...data.pinnedWords.filter(w=>typeof w==='string'&&w.length<=100).slice(0,4000)])].slice(0,4000);
-  saveEdits();
-  personal=mergedPersonal;customCategories=mergedCats;categorySaved=mergedWords;
-  mergedCats.forEach(name=>{topicWords[name]??=[]});
-  topic=null;category='Categories';show();
-  backupNotice('Backup imported! Existing words were kept and new ones added.');
-  alert('Backup imported successfully! Existing words and categories were kept.');
- }catch(err){alert('Could not import the backup: '+(err.message||'unknown error'));}
+ const file=e.target.files?.[0];if(!file)return;if(file.size>3_000_000){alert('This backup file is too large.');return;}
+ try{const incoming=JSON.parse(await file.text());validateBackup(incoming);const counts=backupCounts(incoming),merged=mergeBackup(incoming),before=collectBackup();
+  backupDialog('Preview import: '+file.name,'This will MERGE the file with saved vocabulary on this device. No existing words will be intentionally removed.',counts,[['Import and verify',()=>{
+   try{
+    // Keep one undo snapshot before any change. If snapshot saving fails, import is blocked.
+    localStorage.setItem(recoveryKey,JSON.stringify({savedAt:new Date().toISOString(),data:before}));
+    persistData(merged);applyData(merged);show();updateSaveIndicator(true);
+    const confirmed=backupCounts(collectBackup());const expected=backupCounts(merged);
+    if(JSON.stringify(confirmed)!==JSON.stringify(expected))throw Error('Restored word counts do not match.');
+    closeBackupPanel();backupNotice('Import checked: '+countText(confirmed));
+    alert('Import verified! '+countText(confirmed)+'\n\nA recovery snapshot of the previous data was saved on this device.');
+   }catch(err){updateSaveIndicator(false);alert('Import NOT verified: '+err.message+'\nPlease do not delete your backup file.');}
+  }]],counts.words+counts.categories+counts.categoryWords+counts.edits+counts.hidden+counts.pins===0?'Warning: This backup contains no custom additions or edits. Importing it will not restore missing words.':'An automatic local recovery snapshot is created before importing.');
+ }catch(err){alert('Could not read the backup: '+(err.message||'unknown error'));}
 });
-
+// Refresh counts when the menu opens and after vocabulary changes.
+menuToggle.addEventListener('click',()=>{if(!appMenu.hidden)updateBackupStats()});
 $('back-category').onclick=()=>{topic=null;show()};
 $('add-new-category').onclick=()=>{keyboardMode='newcategory';keyboardTopic=null;typed='';$('status').textContent='';$('keyboard-title').textContent='Create a new category';$('keyboard-tip').textContent='Give your new category a name, then tap Save Category. You can add words to it afterwards.';$('save').textContent='Save Category';$('add').style.display='none';updateTyped();$('overlay').classList.add('show')};
 $('add-category').onclick=()=>{if(!topic)return;$('add').style.display='';keyboardMode='category';keyboardTopic=topic;typed='';$('status').textContent='';$('keyboard-title').textContent=`Add a word to ${topic}`;$('keyboard-tip').textContent=`Save adds the word to ${topic} and to the A–Z library on this device.`;$('save').textContent=`Save to ${topic}`;updateTyped();$('overlay').classList.add('show')};
@@ -320,9 +369,9 @@ $('add').onclick=()=>{const val=typed.trim();if(!val)return;addWord(val);closeKe
   topicWords[name]=[];category='Categories';topic=name;show();closeKeyboard();return;
  }
  if(keyboardMode==='category'&&keyboardTopic){const group=keyboardTopic;const exists=[...topicWords[group],...(categorySaved[group]||[])].some(x=>x.toLowerCase()===val.toLowerCase());if(exists){$('status').textContent=`“${val}” is already in ${group}.`;return;}categorySaved[group]??=[];categorySaved[group].push(val);if(!storeCategoryWords()){$('status').textContent='Unable to save on this device. Check browser storage settings.';categorySaved[group].pop();return;}}
- if(![...baseWords,...personal].some(x=>x.toLowerCase()===val.toLowerCase())){personal.push(val);try{localStorage.setItem(savedKey,JSON.stringify(personal))}catch(e){$('status').textContent='The A–Z copy could not be saved.'}}
+ if(![...baseWords,...personal].some(x=>x.toLowerCase()===val.toLowerCase())){personal.push(val);try{localStorage.setItem(savedKey,JSON.stringify(personal));updateSaveIndicator(true)}catch(e){updateSaveIndicator(false);$('status').textContent='The A–Z copy could not be saved.'}}
  if(keyboardMode==='category'&&keyboardTopic){$('status').textContent=`Saved “${val}” to ${keyboardTopic}!`;show();setTimeout(closeKeyboard,650)}else{$('status').textContent=`Saved “${val}” to the A–Z library.`;show()}
 };
-document.addEventListener('keydown',e=>{if(!$('overlay').classList.contains('show'))return;if(e.key==='Escape')closeKeyboard();else if(e.key==='Backspace'){typed=typed.slice(0,-1);updateTyped()}else if(e.key.length===1&&/[a-z ]/i.test(e.key)){typed+=e.key;updateTyped()}});update();show();
+updateBackupStats();document.addEventListener('keydown',e=>{if(!$('overlay').classList.contains('show'))return;if(e.key==='Escape')closeKeyboard();else if(e.key==='Backspace'){typed=typed.slice(0,-1);updateTyped()}else if(e.key.length===1&&/[a-z ]/i.test(e.key)){typed+=e.key;updateTyped()}});update();show();
 })();
 </script></body></html>
